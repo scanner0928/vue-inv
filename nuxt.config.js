@@ -1,3 +1,4 @@
+const apiURL = 'https://in-visible.net/wp-json/wp/v2/'
 module.exports = {
   mode: 'universal',
   /*
@@ -37,6 +38,36 @@ module.exports = {
       }
     }
   },
+  generate: {
+    routes(callback) {
+      axios.get(`${apiURL}blog`).then(response => {
+        // WordPressの総記事数を取得
+        const totalPosts = response.headers['x-wp-total']
+
+        // 記事、カテゴリー、タグなどを取得
+        Promise.all([
+          axios.get(`${apiURL}blog?per_page=${totalPosts}`),
+
+          // 下記はカテゴリーページも作る例
+          axios.get(`${apiURL}categories`)
+        ])
+          .then(axios.spread(function (posts, categories) {
+            let routes1 = posts.data.map((post) => {
+              return {
+                route: `/blog/${post.id}`,
+                payload: post
+              }
+            })
+
+            let routes2 = categories.data.map((category) => {
+              return `/blog/category/${category.slug}`
+            })
+
+            callback(null, routes1.concat(routes2))
+          }))
+      })
+    }
+  },
   modules: [
     '@nuxtjs/style-resources',
     '@nuxtjs/axios'
@@ -45,6 +76,7 @@ module.exports = {
     '~/plugins/axios'
   ],
   axios: {
+    baseURL: apiURL
   },
   styleResources: {
     scss: [
