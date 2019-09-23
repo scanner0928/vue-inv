@@ -1,0 +1,93 @@
+@charset "UTF-8";
+$mainColor: #d8bb7f;
+$subColor: #20315e;
+$bodyColor: #25242c;
+$gNavBdrColor: #c0c0c0;
+$footerColor: $subColor;
+/* text color */
+$txtColor: #666;
+$txtColor-wh: #f0f0f0;
+$strongColor: #bb4646;
+$cautionColor: #ca5656;
+/* parts color */
+$bdrColor: #dbdbdb;
+$linkColor: #8f575a;
+$btnColor: $mainColor;
+$btnTextColor: #fafafa;
+$thColor: #f6f2e6;
+$tdColor: #fff;
+$bgColor-toggle: #c0c0c0;
+$mNavColor: #1a1a1a;
+$toggleColor: $linkColor;
+$toggleBgColor: $linkColor;
+$toggleColor-isActive: #fff;
+$toggleBgColor-isActive: darken($toggleBgColor,10%);
+/* header */
+$headerHeight-sp: 5rem;
+$headerColor: $subColor;
+$headerNavColor: rgba(255,255,255,.9);
+$headerNavTextColor: #666;
+$headerNavTextColor: #666;
+/*wrap*/
+$padSp-h: 2rem;
+$padSp-v: 5vh;
+$padTablet-h: 3rem;
+$padTablet-v: 5vh;
+$padPc-h: 10vw;
+$padPc-v: 10vh;
+$padPcEx-h: 10vw;
+$padPcEx-v: 10vh;
+/* etc */
+$maxWindow: 150rem;
+$sectionMargin: 4rem;
+$navWidth: 80vw;
+$prevnextsize: 3rem;
+$prevnextsizeSp: $prevnextsize*.6;
+$prevnextLocate: 0;
+$slick-arrow-color: #222 !default;
+$headersize-pc: 25rem;
+$tablePadding: 1rem;
+$mainArticlePadding: 2em;
+/* media */
+$breakSmall: 480px;
+$breakMedium: 768px;
+$breakLarge: 1024px;
+$breakExlarge: 1280px;
+/* Block names */
+$siteHeader: "site-header--wrap";
+/* inner */
+@mixin MQ($canvas) {
+  @if $canvas == sp-only {
+    @media (max-width: $breakMedium - 1px) {
+      @content;
+    }
+  } @else
+  if $canvas == tablet {
+    @media (min-width: $breakMedium) {
+      @content;
+    }
+  } @else
+  if $canvas == laptop {
+    @media (min-width: $breakLarge) {
+      @content;
+    }
+  } @else
+  if $canvas == tablet-only {
+    @media(min-width: $breakMedium)and(max-width: $breakLarge - 1px) {
+      @content;
+    }
+  } @else
+  if $canvas == lower-tablet {
+    @media (max-width: $breakLarge - 1px) {
+      @content;
+    }
+  } @else
+  if $canvas == laptop-extra {
+    @media (min-width: $breakExlarge) {
+      @content;
+    }
+  }
+}
+$maxInnerWidth: $breakExlarge;
+/* IDs */
+// $siteHeader: "siteHeader-wrap";

@@ -1,65 +1,111 @@
 <template>
-  <section class="container">
-    <div>
-      <app-logo/>
-      <h1 class="title">
-        vue-inv
-      </h1>
-      <h2 class="subtitle">
-        Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green">Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey">GitHub</a>
-      </div>
+  <section class="contentArea" id="blog">
+    <div class="tile-row">
+      <article class="blogListCard tile-cell" v-for="post in posts" :key="post.id">
+        <header>
+          <h1 class="tileTitle">{{post.title.rendered}}</h1>
+          <p class="excerpt">{{ post.excerpt.rendered }}</p>
+        </header>
+        <div class="blogListLink">
+          <nuxt-link :to="`/works/${post.id}`" class="card-footer-item">Read More</nuxt-link>
+        </div>
+        <footer class="footerMeta">
+          <div class="inner">
+            <time>{{post.date}}</time>
+          </div>
+        </footer>
+      </article>
     </div>
   </section>
 </template>
 
 <script>
-import AppLogo from '~/components/AppLogo.vue'
-
 export default {
-  components: {
-    AppLogo
+  async asyncData({ $axios }) {
+    const posts = await $axios.$get(
+      "https://in-visible.net/wp-json/wp/v2/blog"
+    );
+    return { posts };
   }
-}
+};
 </script>
 
-<style>
-.container {
-  min-height: 100vh;
+<style scoped lang="scss">
+.tile-row {
+  display: -webkit-flex;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+  -js-display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
 
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  & > * {
+    @include MQ(tablet) {
+      width: 50%;
+    }
+    @include MQ(laptop) {
+      width: 25%;
+    }
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+  &.tile-col3 > * {
+    @include MQ(laptop) {
+      width: 33.33%;
+    }
+  }
 }
+.blogListCard {
+  padding: 1.5rem;
+  position: relative;
+  background: white;
+  line-height: 1.4;
+  border-bottom: 1px solid #c0c0c0;
 
-.links {
-  padding-top: 15px;
+  header {
+    padding: 1rem 0 2rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .tileTitle {
+    font-size: 95%;
+    font-weight: bold;
+  }
+
+  .excerpt {
+    font-size: 80%;
+  }
+
+  .footerMeta {
+    text-align: right;
+    font-size: 80%;
+
+    .inner {
+    }
+
+    time {
+      color: #999;
+    }
+
+    .category span {
+      display: inline-block;
+      margin-right: 0.5em;
+
+      a {
+        color: $mainColor;
+        text-decoration: underline;
+      }
+    }
+  }
+  @include MQ(tablet) {
+    padding-bottom: 2rem;
+
+    .footerMeta {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 1rem;
+    }
+  }
 }
 </style>
-

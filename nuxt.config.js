@@ -1,9 +1,11 @@
 module.exports = {
+  mode: 'universal',
   /*
   ** Headers of the page
   */
   head: {
     title: 'vue-inv',
+    titleTemplate: '%s | in-visible.net',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -24,7 +26,7 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -34,6 +36,24 @@ module.exports = {
         })
       }
     }
+  },
+  modules: [
+    '@nuxtjs/style-resources',
+    '@nuxtjs/axios'
+  ],
+  plugins: [
+    '~/plugins/axios'
+  ],
+  axios: {
+  },
+  styleResources: {
+    scss: [
+      './assets/sass/_vars.scss',
+      './assets/sass/base/_reset.scss',
+      './assets/sass/base/_gm_reset.scss',
+      './assets/sass/base/_functions.scss',
+      // './assets/sass/base/*.scss',
+    ]
   }
 }
 

@@ -1,0 +1,8 @@
+@charset "UTF-8";
+@mixin col-left() {
+  width: 40%;
+}
+@mixin col-right() {
+  width: 55%;
+  margin-left: auto;
+}
